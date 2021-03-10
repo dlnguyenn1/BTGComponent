@@ -1,0 +1,21 @@
+.THIS .containerStyle{
+    min-width: 40rem;
+}
+
+@media screen and (max-width:600px) {
+    .THIS .containerStyle{
+        min-width: 20rem;
+    }
+}
+.THIS .containerBorderStyle{
+    border-style: solid;
+}
+.THIS .containerHeight{
+    height: 24rem;
+}
+.THIS .slds-backdrop{
+    background: rgb(0, 112, 210)!important;
+}
+.THIS .slds-modal__close{
+    color: yellow!important;
+}

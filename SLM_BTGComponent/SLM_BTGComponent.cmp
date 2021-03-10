@@ -1,0 +1,23 @@
+<aura:component controller="SLM_BTG" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable,force:lightningQuickAction,lightning:actionOverride,force:hasSObjectName" access="global" >
+    <aura:attribute name="ModelViewTitle" type="String" default="Break-the-Glass" />
+    <aura:attribute name="BTGFlag" type="Boolean" default="false"/>
+    <aura:attribute name="hash" type="String" />
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Billing', 'value': 'Billing'},
+                                                        {'label': 'Direct Patient Care', 'value': 'Direct Patient Care'},
+                                                        {'label': 'Investigation', 'value': 'Investigation'},
+                                                        {'label': 'Record Review', 'value': 'Record Review'},
+                                                        {'label': 'Scheduling', 'value': 'Scheduling'},
+                                                        {'label': 'Unspecified', 'value': 'Unspecified'},                                                     
+                                                        ]"/>
+    <aura:attribute name="SelectedReason" type="String"  />
+    <aura:attribute name="furtherExplanation" type="String"  />
+    <aura:attribute name="AccountTabId" type="String"  />
+    <aura:attribute name="UserUITheme" type="String"  /> <!-- dnguyen code -->
+    <aura:attribute name="BTGObj" type="BTG_User_Log__c" default="{ 'sobjectType': 'BTG_User_Log__c' }"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <lightning:navigation aura:id="navService"/>
+    <lightning:navigation aura:id="navLink"/>
+    <aura:handler event="aura:locationChange" action="{!c.update}"/>
+</aura:component>

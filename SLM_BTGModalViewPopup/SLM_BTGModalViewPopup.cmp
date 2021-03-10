@@ -1,0 +1,70 @@
+<aura:component controller="SLM_BTG" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable,lightning:actionOverride,force:hasSObjectName " access="global" >
+	<aura:attribute name="BTGFlag" type="Boolean" />
+    <aura:attribute name="AcctTabId" type="String" />
+    <aura:attribute name="ModelViewTitle" type="String" default="Break-the-Glass" />
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Billing', 'value': 'Billing'},
+                                                        {'label': 'Direct Patient Care', 'value': 'Direct Patient Care'},
+                                                        {'label': 'Investigation', 'value': 'Investigation'},
+                                                        {'label': 'Record Review', 'value': 'Record Review'},
+                                                        {'label': 'Scheduling', 'value': 'Scheduling'},
+                                                        {'label': 'Unspecified', 'value': 'Unspecified'},                                                     
+                                                        ]"/>
+    
+    <aura:attribute name="furtherExplanation" type="String"  />
+    <aura:attribute name="CurrentTabId" type="String"  />
+    <aura:attribute name="BTGObj" type="BTG_User_Log__c" default="{ 'sobjectType': 'BTG_User_Log__c' }"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:navigation aura:id="navService"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:if isTrue="{!v.BTGFlag}">
+        <!--###### MODAL BOX Start######--> 
+        <div >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-backdrop" >
+                <div class="slds-modal__container  containerStyle" style="height:40rem;">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <div class="containerBorderStyle" >
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeModel }"
+                                                  alternativeText="close"
+                                                  class="slds-modal__close containerBorderStyle"/>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_5-of-12 slds-text-align_right">
+                                    <img src="{!$Resource.BTG}" style="width: 3rem;"/>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 slds-text-align_left">
+                                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.ModelViewTitle}</h2>
+                                </div>
+                            </div>
+                            
+                        </header>
+                        <!--###### MODAL BOX BODY Part Start######-->
+                        <div class="slds-modal__content slds-p-around_medium containerHeight" id="modal-content-id-1">
+                            <article class="slds-card">
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <p>The patient file you are attempting to access is restricted. If you have a
+                                        clinical/business need to access the patient's file, please enter a reason and you may proceed.
+                                    </p>  
+                                    <div class="slds-p-top_small">
+                                        <lightning:combobox name="reason" label="Reason" value="{!v.BTGObj.Reason__c}" placeholder="Select Reason" options="{! v.options }" />
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <lightning:input name="input1" label="Further Explanation" value="{!v.BTGObj.Further_Explanation__c}" />
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <footer class="slds-modal__footer slds-text-align_center"> 
+                            
+                            <lightning:button variant="brand"  label="Accept" title="Accept" disabled="{!v.BTGObj.Reason__c == null ?'true':'false'}" onclick="{! c.saveUserDetails }" />
+                            <lightning:button variant="neutral" label="Cancel" title="Close" onclick="{! c.closeModel }" />
+                            
+                        </footer>
+                    </div>
+                    
+                </div>
+            </section>
+        </div>
+    </aura:if>
+</aura:component>
