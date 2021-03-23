@@ -36,7 +36,7 @@
                 });
             } else {
                 // this is standard navigation, use the navigate method to open the component
-                navService.navigate(pageReference, false);
+                navService.navigate(pageReference, true);
             }
         })
         .catch(function(error) {
@@ -82,7 +82,6 @@
     },
     
     
-    
     getEnclosingTabId : function(component, event, helper) {
         var workspaceAPI = component.find("workspace");
         var self = this;
@@ -96,8 +95,8 @@
             var AccTabId = component.get("v.pageReference").state.c__AccountTabId;
             component.set("v.AcctTabId",AccTabId);console.log('=AccTabId=',AccTabId);
             //workspaceAPI.closeTab({tabId: AccTabId});
-        	BTGObj.EventType__c = 'Bump the Glass';
-        	var updateParamsObj = new Object();console.log('=BTGObj=',BTGObj);
+          BTGObj.EventType__c = 'Bump the Glass';
+          var updateParamsObj = new Object();console.log('=BTGObj=',BTGObj);
             updateParamsObj["objectID"] = component.get("v.recordId");
             updateParamsObj["BTGUserLogObj"] = BTGObj;
             self.doServerSideCall(component, 'createBTGUserLog', updateParamsObj,'getEnclosingTabId').then(function(response) {
@@ -112,7 +111,9 @@
         });
     },
     
-   
+    returnTheme : function (component, event, helper) {
+        component.set("v.UITheme", UITheme.getUITheme)
+      }
     
     
 })

@@ -1,7 +1,8 @@
 ({
     init: function (cmp, event, helper) {
-      helper.getEnclosingTabId(cmp,event,helper);  
+      helper.getEnclosingTabId(cmp,event,helper);  // on init, call these two methods
       helper.getAccountDetails(cmp,event,helper);  
+      /* helper.redirectToHCRecord(cmp,event,helper); */
     }, 
     
     closeModel: function (cmp, event, helper) {

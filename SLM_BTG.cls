@@ -92,7 +92,9 @@ public without sharing class SLM_BTG {
                     }
                     if(BTGV.DeveloperName == 'Default'){
                         DefaultDuration = BTGV.Duration__c;
-                    }
+                    } /* else {
+                        DefaultDuration = '1';
+                    } */
                 }
                 system.debug('=GroupIDs='+GroupIDs);
                 if(GroupIDs.size()>0){
@@ -290,6 +292,11 @@ break;
         return null;
     }    
     
+    @AuraEnabled
+       public static String getUIThemeDescription() {
+        String theme = UserInfo.getUiThemeDisplayed();
+        return theme;
+     }
     
     public class AccountUserLogTableWrapper{
         @AuraEnabled Public Account ObjAcc;

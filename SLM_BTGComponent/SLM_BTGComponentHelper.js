@@ -12,10 +12,13 @@
                                   cmp.set("v.UserUITheme", records.Theme);
                                   console.log('User UI Theme is ' + records.Theme);
                                   if(records.BTGFlag == true){
-                                      window.setTimeout(self.openComponentTab, 200, cmp, event, helper);                             
-                                  } // INSERT NEW CODE HERE
-                                   else if (records.BTGFlag == false && (records.Theme != 'Theme4d' || records.Theme != 'Theme3')){
-                                      window.setTimeout(self.redirectToRecord, 200, cmp, event, helper); 
+                                      console.log ('BTGFlag is ' + records.BTGFlag);
+                                      window.setTimeout(this.openComponentTab, 200, cmp, event, helper);                             
+                                  } // Check for mobile device UI and if BTG == false, redirect to record
+                                //    else if (records.BTGFlag == false && (records.Theme != 'Theme4d' || records.Theme != 'Theme3')){
+                                    else if (records.BTGFlag == false && records.Theme === 'Theme4t'){
+                                      window.setTimeout(this.redirectToRecord, 200, cmp, event, helper); 
+                                      console.log('Redirecting to record because theme is ' + records.Theme)
                                    }
                                  }
                 
@@ -44,6 +47,7 @@
         workspaceAPI.getEnclosingTabId().then(function(response) {
             var focusedTabId = response.tabId;
             workspaceAPI.closeTab({tabId: focusedTabId});
+            console.log("Attempting to navigate to account closeTab");
         })
         .catch(function(error) {
             console.log(error);
@@ -51,22 +55,38 @@
     },
 
     redirectToRecord : function(component, event, helper) {
-        var navLink = component.find("navLink");
+        var navService = component.find("navService");
         var pageRef = {
-            type: 'standard__recordPage',
+            type: "standard__recordPage",
             attributes: {
-                actionName: 'view',
+                actionName: "view",
                 //objectApiName: 'PersonAccount',
                 recordId : component.get("v.recordId")
+                
+            },
+            state: {
+               nooverride: "1",
+            }
+        };
+        navService.navigate(pageRef, true);
+    },
+    
+    redirectToHCRecord : function(component, event, helper) {
+        var navLink = component.find("navLink");
+        var pageRef = {
+            type: "standard__recordPage",
+            attributes: {
+                actionName: "view",
+                //objectApiName: "PersonAccount",
+                recordId : "0010q00000ZGhjNAAT"
                 
             },
             state: {
                 nooverride: "1",
             }
         };
-        navLink.navigate(pageRef);
+        navLink.navigate(pageRef, false);
     },
-    
     
     
     openComponentTab: function(component, event, helper) {
@@ -116,7 +136,6 @@
             } else {
                 // this is standard navigation, use the navigate method to open the component
                 navService.navigate(pageReference, false);
-                console.log("This is page reference correct" + pageReference);
             }
         })
         .catch(function(error) {
